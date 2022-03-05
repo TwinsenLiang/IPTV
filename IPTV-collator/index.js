@@ -14,9 +14,15 @@ function iptvCollator(options) {
       return true;
     }
     if (/(.*\,#genre#)/.test(item)) {
-      collated[item] = [];
+      if (!collated[item]) {
+        collated[item] = [];
+      }
     } else {
-      collated[genreList[index - 1]] = collateGenreList(item, isSort);
+      // 避免相同 genre 的被覆盖
+      collated[genreList[index - 1]] = {
+        ...collated[genreList[index - 1]],
+        ...collateGenreList(item, isSort),
+      };
     }
   });
 
