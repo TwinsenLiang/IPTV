@@ -2383,4 +2383,3 @@ XXL,http://82.42.140.103:8001/1:0:1:1d4:26ac:13f:820000:0:0:0:
 香蕉台Banana,rtmp://45.92.126.226/channel/60fa6d608dfe8209677fdb1e?sign=X36LZn%2FOPDCLklIrzW%2BkDBrpD1o9bAVXLBpa6S4x7n0%3D
 驚艷台AmazingTV,p5p://45.92.126.18:9906/60fd2dbc0002e8d300ed4537251ee06d
 驚艷台AmazingTV,rtmp://45.92.126.226/channel/60fa6d048dfe8209677fdb1c?sign=X36LZn%2FOPDCLklIrzW%2BkDBrpD1o9bAVXLBpa6S4x7n0%3D
-
