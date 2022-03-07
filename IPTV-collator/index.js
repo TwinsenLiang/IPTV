@@ -4,8 +4,8 @@ const path = require('path');
 function iptvCollator(options) {
   const { input, output, isSort = false } = options;
 
-  const IPTVFile = fs.readFileSync(path.resolve(__dirname, input), 'utf8');
-  const genreList = IPTVFile.split(/(.*\,#genre#)/);
+  const iptvFile = fs.readFileSync(path.resolve(__dirname, input), 'utf8');
+  const genreList = iptvFile.split(/(.*,#genre#)/);
 
   const collated = {};
 
@@ -13,9 +13,9 @@ function iptvCollator(options) {
     if (!item) {
       return true;
     }
-    if (/(.*\,#genre#)/.test(item)) {
+    if (/(.*,#genre#)/.test(item)) {
       if (!collated[item]) {
-        collated[item] = [];
+        collated[item] = {};
       }
     } else {
       // 避免相同 genre 的被覆盖
@@ -35,11 +35,16 @@ function iptvCollator(options) {
 function collateGenreList(text, isSort = false) {
   const data = text.split('\n').filter((item) => item);
   const result = {};
-  data.forEach((item) => {
+  data.forEach((item, index) => {
     const matches = item.split(',');
     // 过滤掉重复的 url
     if (matches && matches.length >= 2 && Object.values(result).indexOf(matches[1]) === -1) {
-      result[matches[0]] = matches[1];
+      // 避免同一电视台的不同源被覆盖
+      if (result[matches[0]]) {
+        result[`${matches[0]}$$$${index}`] = matches[1];
+      } else {
+        result[matches[0]] = matches[1];
+      }
     } else {
       console.log('发现重复::::', item);
     }
@@ -64,7 +69,7 @@ function jsonToText(json) {
   Object.keys(json).forEach((key) => {
     result.push(`\n\n${key}\n`);
     for (const [subKey, value] of Object.entries(json[key])) {
-      result.push(`${subKey},${value}`);
+      result.push(`${subKey.replace(/\$\$\$\d+$/, '')},${value}`);
     }
   });
   return result.join('\n').trim();
