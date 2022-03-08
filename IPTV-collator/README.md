@@ -6,7 +6,7 @@
 - 区别“url”相同的做去重删除。
 - 名称相近，如“名称1”，“名称2”进行同类排序，过程中不影响分组。
 
-## 实现
+## 实现： index.js
 ```js
 iptvCollator({
   input: './src/IPTV.txt', // 要整理的 iptv 文件
